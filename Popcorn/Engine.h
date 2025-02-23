@@ -30,13 +30,14 @@ enum EKey_Type
 const int Timer_ID = WM_USER + 1;
 //------------------------------------------------------------------------------------------------------------
 class AsEngine;
+class ALevel;
 class ABall
 {
 public:
 	ABall();
 
 	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
-	void Move(AsEngine *engine);
+	void Move(AsEngine *engine, ALevel *level );
 
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
@@ -54,13 +55,9 @@ private:
 class ALevel
 {
 public:
-	void Draw_Level(HDC hdc);
-	void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type);
-	void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step);
-	void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
-
-	HPEN Brick_Red_Pen, Brick_Blue_Pen, Letter_Pen;
-	HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
+	void Init();
+	void Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction);
+	void Draw_Level(HDC hdc, RECT& paint_area);
 
 	static const int Level_Width = 12;  // Ширина уровня в ячейках
 	static const int Level_Height = 14;  // Высота уровня в ячейках
@@ -68,9 +65,18 @@ public:
 	static const int Level_Y_Offset = 6;
 	static const int Cell_Width = 16;
 	static const int Cell_Height = 8;
+
+private:
+	void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type);
+    void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
+    void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step);
+
+	HPEN Brick_Red_Pen, Brick_Blue_Pen, Letter_Pen;
+	HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
+	RECT Level_Rect;
+
 	static const int Brick_Width = 15;
 	static const int Brick_Height = 7;
-
 
 };
 //------------------------------------------------------------------------------------------------------------
@@ -83,7 +89,8 @@ public:
 	void Draw_Frame(HDC hdc, RECT &paint_area);
 	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
-	void Check_Level_Brick_Hit(int &next_y_pos);
+
+	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN& pen, HBRUSH& brush);
 
 	HWND Hwnd;
 	HPEN BG_Pen;
@@ -99,7 +106,6 @@ public:
 	static const int Border_Y_Offset = 4;
 
 private:
-	void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &pen, HBRUSH &brush);
 	void Redraw_Platform();
 	void Draw_Platform(HDC hdc, int x, int y);
 	void Draw_Border(HDC hdc, int x, int y, bool top_boder);
@@ -112,7 +118,6 @@ private:
 	int Platform_X_Step;
 
 	RECT Platform_Rect, Prev_Platform_Rect;
-	RECT Level_Rect;
 
 	ABall Ball;
 	ALevel Level;
