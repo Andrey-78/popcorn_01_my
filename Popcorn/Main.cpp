@@ -110,7 +110,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    if (hWnd == 0)
       return FALSE;
 
-   Engine.Init_Engine(hWnd);
+	Engine.Init_Engine(hWnd);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -156,7 +156,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
-            Engine.Draw_Frame(hdc, ps.rcPaint);
+				Engine.Draw_Frame(hdc, ps.rcPaint);
             EndPaint(hWnd, &ps);
         }
         break;
