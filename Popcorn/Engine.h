@@ -37,7 +37,7 @@ public:
 	ABall();
 
 	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
-	void Move(AsEngine *engine, ALevel *level );
+	void Move(AsEngine *engine, ALevel *level);
 
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
@@ -56,8 +56,8 @@ class ALevel
 {
 public:
 	void Init();
-	void Check_Level_Brick_Hit(int& next_y_pos, double& ball_direction);
-	void Draw_Level(HDC hdc, RECT& paint_area);
+	void Check_Level_Brick_Hit(int &next_y_pos, double &ball_direction);
+	void Draw_Level(HDC hdc, RECT &paint_area);
 
 	static const int Level_Width = 12;  // Ширина уровня в ячейках
 	static const int Level_Height = 14;  // Высота уровня в ячейках
@@ -68,8 +68,8 @@ public:
 
 private:
 	void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type);
-    void Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush);
-    void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step);
+	void Set_Brick_Letter_Colors(bool is_switch_color, HPEN &front_pen, HBRUSH &front_brush, HPEN &back_pen, HBRUSH &back_brush);
+	void Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step);
 
 	HPEN Brick_Red_Pen, Brick_Blue_Pen, Letter_Pen;
 	HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
@@ -77,7 +77,6 @@ private:
 
 	static const int Brick_Width = 15;
 	static const int Brick_Height = 7;
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
@@ -90,7 +89,7 @@ public:
 	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
 
-	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN& pen, HBRUSH& brush);
+	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &pen, HBRUSH &brush);
 
 	HWND Hwnd;
 	HPEN BG_Pen;
@@ -111,8 +110,8 @@ private:
 	void Draw_Border(HDC hdc, int x, int y, bool top_boder);
 	void Draw_Bounds(HDC hdc, RECT &paint_area);
 
-	HPEN Highlight_Pen, Brick_Blue_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Brick_Red_Brush, Platform_Circle_Brush, Platform_Inner_Brush, Border_Blue_Brush, Border_White_Brush;
+	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Border_Blue_Pen, Border_White_Pen;
+	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush, Border_Blue_Brush, Border_White_Brush;
 
 	int Inner_Width;
 	int Platform_X_Step;
