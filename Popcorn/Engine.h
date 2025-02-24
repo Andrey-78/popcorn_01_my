@@ -30,14 +30,16 @@ enum EKey_Type
 const int Timer_ID = WM_USER + 1;
 //------------------------------------------------------------------------------------------------------------
 class AsEngine;
+class AsPlatform;
 class ALevel;
+
 class ABall
 {
 public:
 	ABall();
 
 	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
-	void Move(AsEngine *engine, ALevel *level);
+	void Move(AsEngine *engine, ALevel *level, AsPlatform *platform);
 
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
@@ -79,14 +81,38 @@ private:
 	static const int Brick_Height = 7;
 };
 //------------------------------------------------------------------------------------------------------------
+class AsPlatform
+{
+public:
+	AsPlatform();
+	
+	void Redraw_Platform(AsEngine* engine);
+	void Draw_Platform(HDC hdc, int x, int y, RECT* paint_area, AsEngine* engine);
+
+	int Platform_X_Pos;
+	int Platform_Width;
+
+	int Inner_Width;
+	int Platform_X_Step;
+
+	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;
+	
+	RECT Platform_Rect, Prev_Platform_Rect;
+
+	static const int Platform_Y_Pos = 185;
+	static const int Circle_Size = 7;
+	static const int Platform_Height = 7;
+
+};
+//------------------------------------------------------------------------------------------------------------
 class AsEngine
 {
 public:
-	AsEngine();
-
+	
 	void Init_Engine(HWND hwnd);
-	void Draw_Frame(HDC hdc, RECT &paint_area);
-	int On_Key_Down(EKey_Type key_type);
+	void Draw_Frame(HDC hdc, RECT &paint_area, AsPlatform *platform);
+	int On_Key_Down(EKey_Type key_type, AsPlatform *platform);
 	int On_Timer();
 
 	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &pen, HBRUSH &brush);
@@ -94,34 +120,24 @@ public:
 	HWND Hwnd;
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
-	int Platform_X_Pos;
-	int Platform_Width;
 
 	static const int Global_Scale = 3;
 	static const int Max_X_Pos = ALevel::Level_X_Offset + ALevel::Cell_Width * ALevel::Level_Width;
 	static const int Max_Y_Pos = 199 - ABall::Ball_Size;
-	static const int Platform_Y_Pos = 185;
 	static const int Border_X_Offset = 6;
 	static const int Border_Y_Offset = 4;
 
 private:
-	void Redraw_Platform();
-	void Draw_Platform(HDC hdc, int x, int y);
 	void Draw_Border(HDC hdc, int x, int y, bool top_boder);
 	void Draw_Bounds(HDC hdc, RECT &paint_area);
 
-	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen, Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush, Border_Blue_Brush, Border_White_Brush;
+	HPEN Border_Blue_Pen, Border_White_Pen;
+	HBRUSH Border_Blue_Brush, Border_White_Brush;
 
-	int Inner_Width;
-	int Platform_X_Step;
 
-	RECT Platform_Rect, Prev_Platform_Rect;
 
 	ABall Ball;
 	ALevel Level;
-
-	static const int Circle_Size = 7;
-	static const int Platform_Height = 7;
+	AsPlatform Platform;
 };
 //------------------------------------------------------------------------------------------------------------

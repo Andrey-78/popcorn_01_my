@@ -7,6 +7,7 @@
 #define MAX_LOADSTRING 100
 
 // Global Variables:
+AsPlatform Platform;
 AsEngine Engine;
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -156,7 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
-				Engine.Draw_Frame(hdc, ps.rcPaint);
+				Engine.Draw_Frame(hdc, ps.rcPaint, &Platform);
             EndPaint(hWnd, &ps);
         }
         break;
@@ -171,13 +172,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		 switch (wParam)
 		 {
 		 case VK_LEFT:
-			 return Engine.On_Key_Down(EKT_Left);
+			 return Engine.On_Key_Down(EKT_Left, &Platform);
 
 		 case VK_RIGHT:
-			 return Engine.On_Key_Down(EKT_Right);
+			 return Engine.On_Key_Down(EKT_Right, &Platform);
 
 		 case VK_SPACE:
-			 return Engine.On_Key_Down(EKT_Space);
+			 return Engine.On_Key_Down(EKT_Space, &Platform);
 		 }
 		 break;
 
