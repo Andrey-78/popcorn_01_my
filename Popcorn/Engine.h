@@ -37,9 +37,9 @@ class ABall
 {
 public:
 	ABall();
-
+	void Init();
 	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
-	void Move(AsEngine *engine, ALevel *level, AsPlatform *platform);
+	void Move(AsEngine *engine, ALevel *level, AsPlatform* platform);
 
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
@@ -85,20 +85,18 @@ class AsPlatform
 {
 public:
 	AsPlatform();
-	
-	void Redraw_Platform(AsEngine* engine);
-	void Draw_Platform(HDC hdc, int x, int y, RECT* paint_area, AsEngine* engine);
-
-	int Platform_X_Pos;
-	int Platform_Width;
-
-	int Inner_Width;
-	int Platform_X_Step;
-
-	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
-	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;
+	void Init();
+	void Redraw_Platform(AsEngine *engine);
+	void Draw_Platform(HDC hdc, AsEngine *engine, RECT &paint_area);
 	
 	RECT Platform_Rect, Prev_Platform_Rect;
+	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
+	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;
+
+	int Platform_X_Pos;
+	int Platform_Width;	
+	int Inner_Width;
+	int Platform_X_Step;
 
 	static const int Platform_Y_Pos = 185;
 	static const int Circle_Size = 7;
@@ -111,8 +109,8 @@ class AsEngine
 public:
 	
 	void Init_Engine(HWND hwnd);
-	void Draw_Frame(HDC hdc, RECT &paint_area, AsPlatform *platform);
-	int On_Key_Down(EKey_Type key_type, AsPlatform *platform);
+	void Draw_Frame(HDC hdc, RECT &paint_area);
+	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
 
 	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &pen, HBRUSH &brush);
@@ -133,8 +131,6 @@ private:
 
 	HPEN Border_Blue_Pen, Border_White_Pen;
 	HBRUSH Border_Blue_Brush, Border_White_Brush;
-
-
 
 	ABall Ball;
 	ALevel Level;

@@ -25,6 +25,12 @@ ABall::ABall()
 {
 }
 //------------------------------------------------------------------------------------------------------------
+void ABall::Init()
+{
+	AsEngine::Create_Pen_Brush(255, 255, 255, Ball_Pen, Ball_Brush);
+
+}
+//------------------------------------------------------------------------------------------------------------
 void ABall::Draw(HDC hdc, RECT &paint_area, AsEngine *engine)
 {
 	RECT intersection_rect;
@@ -320,8 +326,19 @@ AsPlatform::AsPlatform()
 : Inner_Width(21), Platform_X_Pos(AsEngine::Border_X_Offset), Platform_X_Step(AsEngine::Global_Scale * 2), Platform_Width(28)
 {
 }
+//------------------------------------------------------------------------------------------------------------
+void AsPlatform::Init()
+{
+	Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
+
+	AsEngine::Create_Pen_Brush(151, 0, 0, Platform_Circle_Pen, Platform_Circle_Brush);
+	AsEngine::Create_Pen_Brush(0, 128, 192, Platform_Inner_Pen, Platform_Inner_Brush);
+
+}
+//------------------------------------------------------------------------------------------------------------
 void AsPlatform::Redraw_Platform(AsEngine *engine)
 {
+	
 	Prev_Platform_Rect = Platform_Rect;
 
 	Platform_Rect.left = Platform_X_Pos * AsEngine::Global_Scale;
@@ -333,12 +350,15 @@ void AsPlatform::Redraw_Platform(AsEngine *engine)
 	InvalidateRect(engine->Hwnd, &Platform_Rect, FALSE);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsPlatform::Draw_Platform(HDC hdc, int x, int y, RECT *paint_area , AsEngine *engine)
+void AsPlatform::Draw_Platform(HDC hdc, AsEngine *engine, RECT &paint_area)
 {// Рисуем платформу
+	
+	int x = Platform_X_Pos;
+	int y = Platform_Y_Pos;
 	
 	RECT intersection_rect;
 
-	if ( !IntersectRect(&intersection_rect, paint_area, &Platform_Rect))
+	if ( !IntersectRect(&intersection_rect, &paint_area, &Platform_Rect))
 		return;
 	
 	SelectObject(hdc, engine->BG_Pen);
@@ -377,30 +397,24 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	Hwnd = hwnd;
 
-	Platform.Highlight_Pen = CreatePen(PS_SOLID, 0, RGB(255, 255, 255));
-
 	Create_Pen_Brush(15, 63, 31, BG_Pen, BG_Brush);
-	Create_Pen_Brush(151, 0, 0, Platform.Platform_Circle_Pen, Platform.Platform_Circle_Brush);
-	Create_Pen_Brush(0, 128, 192, Platform.Platform_Inner_Pen, Platform.Platform_Inner_Brush);
-	Create_Pen_Brush(255, 255, 255, Ball.Ball_Pen, Ball.Ball_Brush);
 	Create_Pen_Brush(85, 255, 255, Border_Blue_Pen, Border_Blue_Brush);
 	Create_Pen_Brush(255, 255, 255, Border_White_Pen, Border_White_Brush);
 
+	Ball.Init();
 	Level.Init();
-
+	Platform.Init();
+	
 	Platform.Redraw_Platform(this);
 
 	SetTimer(Hwnd, Timer_ID, 50, 0);
 }
 //------------------------------------------------------------------------------------------------------------
-void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area, AsPlatform *platform)
+void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Отрисовка экрана игры
 
-	RECT intersection_rect;
-
 	Level.Draw_Level(hdc, paint_area);
-
-	Platform.Draw_Platform(hdc, platform->Platform_X_Pos, platform->Platform_Y_Pos, &paint_area, this);
+	Platform.Draw_Platform(hdc, this, paint_area);
 
 	//int i;
 
@@ -415,24 +429,24 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area, AsPlatform *platform)
 	Draw_Bounds(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------
-int AsEngine::On_Key_Down(EKey_Type key_type, AsPlatform *platform)
+int AsEngine::On_Key_Down(EKey_Type key_type)
 {
 	switch (key_type)
 	{
 	case EKT_Left:
-		platform->Platform_X_Pos -= platform->Platform_X_Step;
+		Platform.Platform_X_Pos -= Platform.Platform_X_Step;
 
-		if (platform->Platform_X_Pos <= Border_X_Offset)
-			platform->Platform_X_Pos = Border_X_Offset;
+		if (Platform.Platform_X_Pos <= Border_X_Offset)
+			Platform.Platform_X_Pos = Border_X_Offset;
 
 		Platform.Redraw_Platform(this);
 		break;
 
 	case EKT_Right:
-		platform->Platform_X_Pos += platform->Platform_X_Step;
+		Platform.Platform_X_Pos += Platform.Platform_X_Step;
 
-		if (platform->Platform_X_Pos >= Max_X_Pos - platform->Platform_Width + 1)
-			platform->Platform_X_Pos = Max_X_Pos - platform->Platform_Width + 1;
+		if (Platform.Platform_X_Pos >= Max_X_Pos - Platform.Platform_Width + 1)
+			Platform.Platform_X_Pos = Max_X_Pos - Platform.Platform_Width + 1;
 
 		Platform.Redraw_Platform(this);
 		break;
