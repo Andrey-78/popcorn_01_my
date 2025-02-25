@@ -30,16 +30,17 @@ enum EKey_Type
 const int Timer_ID = WM_USER + 1;
 //------------------------------------------------------------------------------------------------------------
 class AsEngine;
-class AsPlatform;
 class ALevel;
-
+class AsPlatform;
 class ABall
 {
 public:
 	ABall();
+
 	void Init();
+
 	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
-	void Move(AsEngine *engine, ALevel *level, AsPlatform* platform);
+	void Move(AsEngine *engine, ALevel *level, AsPlatform *platform);
 
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;
@@ -59,7 +60,7 @@ class ALevel
 public:
 	void Init();
 	void Check_Level_Brick_Hit(int &next_y_pos, double &ball_direction);
-	void Draw_Level(HDC hdc, RECT &paint_area);
+	void Draw(HDC hdc, RECT &paint_area);
 
 	static const int Level_Width = 12;  // Ширина уровня в ячейках
 	static const int Level_Height = 14;  // Высота уровня в ячейках
@@ -85,47 +86,50 @@ class AsPlatform
 {
 public:
 	AsPlatform();
+
 	void Init();
 	void Redraw_Platform(AsEngine *engine);
-	void Draw_Platform(HDC hdc, AsEngine *engine, RECT &paint_area);
-	
+	void Draw(HDC hdc, AsEngine *engine, RECT &paint_area);
+
+	int X_Pos;
+	int Width;
+	int X_Step;
+
+	static const int Y_Pos = 185;
+
+private:
+	int Inner_Width;
+
 	RECT Platform_Rect, Prev_Platform_Rect;
+
 	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;
 
-	int X_Pos;
-	int Width;	
-	int Inner_Width;
-	int X_Step;
-
-	static const int Platform_Y_Pos = 185;
+	static const int Height = 7;
 	static const int Circle_Size = 7;
-	static const int Platform_Height = 7;
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsBorder
 {
 public:
 	void Init();
-	void Draw_Bounds(HDC hdc, RECT &paint_area, AsEngine *engine);
+	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
 
 	static const int Border_X_Offset = 6;
 	static const int Border_Y_Offset = 4;
 
-
 private:
-	void Draw_Border(HDC hdc, int x, int y, bool top_boder, AsEngine *engine);
+	void Draw_Element(HDC hdc, int x, int y, bool top_boder, AsEngine *engine);
 
 	HPEN Border_Blue_Pen, Border_White_Pen;
 	HBRUSH Border_Blue_Brush, Border_White_Brush;
-
 };
 //------------------------------------------------------------------------------------------------------------
 class AsEngine
 {
 public:
-	
+	AsEngine();
+
 	void Init_Engine(HWND hwnd);
 	void Draw_Frame(HDC hdc, RECT &paint_area);
 	int On_Key_Down(EKey_Type key_type);
@@ -142,8 +146,6 @@ public:
 	static const int Max_Y_Pos = 199 - ABall::Ball_Size;
 
 private:
-
-
 	ABall Ball;
 	ALevel Level;
 	AsPlatform Platform;
