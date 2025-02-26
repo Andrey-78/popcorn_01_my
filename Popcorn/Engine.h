@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include "Border.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -32,6 +33,7 @@ const int Timer_ID = WM_USER + 1;
 class AsEngine;
 class ALevel;
 class AsPlatform;
+class AsConfig;
 class ABall
 {
 public:
@@ -109,39 +111,32 @@ private:
 	static const int Circle_Size = 7;
 };
 //------------------------------------------------------------------------------------------------------------
-class AsBorder
+class AsConfig
 {
 public:
-	void Init();
-	void Draw(HDC hdc, RECT &paint_area, AsEngine *engine);
 
-	static const int Border_X_Offset = 6;
-	static const int Border_Y_Offset = 4;
+	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &pen, HBRUSH &brush);
 
-private:
-	void Draw_Element(HDC hdc, int x, int y, bool top_boder, AsEngine *engine);
+	static const int Global_Scale = 3;
 
-	HPEN Border_Blue_Pen, Border_White_Pen;
-	HBRUSH Border_Blue_Brush, Border_White_Brush;
 };
-//------------------------------------------------------------------------------------------------------------
+
+
 class AsEngine
 {
 public:
-	AsEngine();
+	
 
 	void Init_Engine(HWND hwnd);
-	void Draw_Frame(HDC hdc, RECT &paint_area);
+	void Draw_Frame(HDC hdc, AsEngine *engine, RECT &paint_area);
 	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
-
-	static void Create_Pen_Brush(unsigned char r, unsigned char g, unsigned char b, HPEN &pen, HBRUSH &brush);
 
 	HWND Hwnd;
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
 
-	static const int Global_Scale = 3;
+
 	static const int Max_X_Pos = ALevel::Level_X_Offset + ALevel::Cell_Width * ALevel::Level_Width;
 	static const int Max_Y_Pos = 199 - ABall::Ball_Size;
 
@@ -149,6 +144,5 @@ private:
 	ABall Ball;
 	ALevel Level;
 	AsPlatform Platform;
-	AsBorder Border;
 };
 //------------------------------------------------------------------------------------------------------------
