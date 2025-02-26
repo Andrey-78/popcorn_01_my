@@ -21,7 +21,8 @@ char Level_01[ALevel::Level_Height][ALevel::Level_Width] =
 // ABall
 //------------------------------------------------------------------------------------------------------------
 ABall::ABall()
-: Ball_X_Pos(20), Ball_Y_Pos(170), Ball_Speed(3.0), Ball_Direction(M_PI - M_PI_4)
+: Ball_Pen(), Ball_Brush(), Ball_X_Pos(20), Ball_Y_Pos(170), Ball_Speed(3.0), Ball_Direction(M_PI - M_PI_4),
+Ball_Rect{}, Prev_Ball_Rect{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -323,7 +324,9 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
-: Inner_Width(21), X_Pos(AsBorder::Border_X_Offset), X_Step(AsEngine::Global_Scale * 2), Width(28)
+: Inner_Width(21), X_Pos(AsBorder::Border_X_Offset), X_Step(AsEngine::Global_Scale * 2), Width(28),
+Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(), Platform_Circle_Pen(), Platform_Inner_Pen(),
+Platform_Circle_Brush(), Platform_Inner_Brush()
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -451,6 +454,7 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area, AsEngine *engine)
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
+: Hwnd(), BG_Pen(), BG_Brush(), Border{}, Level{}
 {
 }
 //------------------------------------------------------------------------------------------------------------
