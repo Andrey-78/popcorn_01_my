@@ -20,7 +20,16 @@
       <UniqueIdentifier>{b24a35de-62d5-4d1d-813e-f6f217c3ed02}</UniqueIdentifier>
     </Filter>
     <Filter Include="Border">
-      <UniqueIdentifier>{23b7809f-bae2-4a5f-8567-1252be121c1d}</UniqueIdentifier>
+      <UniqueIdentifier>{fa44af56-897d-4df7-9c5a-02d5ce74f94d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{a85b0d95-6cdc-4adb-9e45-cb71bfc2807a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{ac646d5d-f9df-4b85-b465-257956c24bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ball">
+      <UniqueIdentifier>{48c50f3e-ffe6-4887-b618-d7244912bbeb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +50,15 @@
     </ClInclude>
     <ClInclude Include="Border.h">
       <Filter>Border</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Ball</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="Border.cpp">
       <Filter>Border</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Ball</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
