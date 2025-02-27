@@ -2,7 +2,6 @@
 
 #include "Config.h"
 
-
 //------------------------------------------------------------------------------------------------------------
 enum EBrick_Type
 {
@@ -26,7 +25,6 @@ public:
 	void Init();
 	void Check_Level_Brick_Hit(int &next_y_pos, double &ball_direction);
 	void Draw(HDC hdc, RECT &paint_area);
-
 
 private:
 	void Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type);

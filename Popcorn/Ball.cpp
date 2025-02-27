@@ -35,8 +35,8 @@ void ABall::Draw(HDC hdc, RECT &paint_area, HPEN bg_pen, HBRUSH bg_brush)
 void ABall::Move(HWND hwnd, ALevel *level, int platform_x_pos, int platform_width)
 {
 	int next_x_pos, next_y_pos;
-	int max_x_pos = AsConfig::Max_X_Pos -AsConfig::Ball_Size;
-	int platform_y_pos = AsConfig::Y_Pos -AsConfig::Ball_Size;
+	int max_x_pos = AsConfig::Max_X_Pos - AsConfig::Ball_Size;
+	int platform_y_pos = AsConfig::Y_Pos - AsConfig::Ball_Size;
 
 	Prev_Ball_Rect = Ball_Rect;
 
@@ -94,5 +94,3 @@ void ABall::Move(HWND hwnd, ALevel *level, int platform_x_pos, int platform_widt
 	InvalidateRect(hwnd, &Ball_Rect, FALSE);
 }
 //------------------------------------------------------------------------------------------------------------
-
-

@@ -5,7 +5,6 @@
 #include "Border.h"
 #include "Ball.h"
 
-
 //------------------------------------------------------------------------------------------------------------
 enum EKey_Type
 {
@@ -29,7 +28,6 @@ public:
 	int X_Pos;
 	int Width;
 	int X_Step;
-
 
 private:
 	int Inner_Width;
@@ -56,7 +54,6 @@ public:
 	HWND Hwnd;
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
-
 
 private:
 	ABall Ball;

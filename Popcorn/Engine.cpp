@@ -1,9 +1,5 @@
 #include "Engine.h"
 
-
-
-
-
 // AsPlatform
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
@@ -146,7 +142,7 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Timer()
 {
-	Ball.Move(Hwnd, &Level, Platform.X_Pos, Platform.Width );
+	Ball.Move(Hwnd, &Level, Platform.X_Pos, Platform.Width);
 
 	return 0;
 }
