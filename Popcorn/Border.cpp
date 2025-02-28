@@ -30,7 +30,6 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area, HPEN bg_pen, HBRUSH bg_brush)
 	for (i = 0; i < 50; i++)
 		Draw_Element(hdc, 3 + i * 4, 0, true, bg_pen, bg_brush);
 }
-
 //------------------------------------------------------------------------------------------------------------
 void AsBorder::Draw_Element(HDC hdc, int x, int y, bool top_border, HPEN bg_pen, HBRUSH bg_brush)
 {// Рисует элемент рамки уровня

@@ -1,10 +1,5 @@
 ﻿#include "Engine.h"
 
-//------------------------------------------------------------------------------------------------------------
-
-
-
-
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
@@ -24,7 +19,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Platform.Init();
 	Border.Init();
 
-	Platform.Redraw_Platform(hwnd);
+	Platform.Redraw_Platform(Hwnd);
 
 	SetTimer(Hwnd, Timer_ID, 50, 0);
 }
