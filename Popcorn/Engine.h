@@ -5,6 +5,8 @@
 #include "Border.h"
 #include "Ball.h"
 #include "Platform.h"
+#include "Active_Brick.h"
+
 
 //------------------------------------------------------------------------------------------------------------
 enum EKey_Type
@@ -26,14 +28,15 @@ public:
 	int On_Key_Down(EKey_Type key_type);
 	int On_Timer();
 
+private:
 	HWND Hwnd;
 	HPEN BG_Pen;
 	HBRUSH BG_Brush;
 
-private:
 	ABall Ball;
 	ALevel Level;
 	AsPlatform Platform;
 	AsBorder Border;
+
 };
 //------------------------------------------------------------------------------------------------------------
