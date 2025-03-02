@@ -5,8 +5,6 @@
 #include "Border.h"
 #include "Ball.h"
 #include "Platform.h"
-#include "Active_Brick.h"
-
 
 //------------------------------------------------------------------------------------------------------------
 enum EKey_Type
@@ -37,6 +35,5 @@ private:
 	ALevel Level;
 	AsPlatform Platform;
 	AsBorder Border;
-
 };
 //------------------------------------------------------------------------------------------------------------

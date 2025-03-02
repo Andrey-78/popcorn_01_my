@@ -76,7 +76,7 @@ int AsEngine::On_Timer()
 {
 	Ball.Move(Hwnd, &Level, Platform.X_Pos, Platform.Width);
 
-	Active_Brick.Act(Hwnd);
+	Level.Active_Brick.Act(Hwnd);
 
 	return 0;
 }
