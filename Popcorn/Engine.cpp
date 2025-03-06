@@ -12,7 +12,6 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	Hwnd = hwnd;
 
-	AsConfig::Create_Pen_Brush(AsConfig::BG_Color, AsConfig::BG_Pen, AsConfig::BG_Brush);
 	AActive_Brick::Setup_Colors();
 
 	Ball.Init();
@@ -40,7 +39,6 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	//}
 
 	Ball.Draw(hdc, paint_area);
-
 	Border.Draw(hdc, paint_area);
 }
 //------------------------------------------------------------------------------------------------------------

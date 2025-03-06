@@ -17,17 +17,17 @@ public:
 
 	void Act(HWND hwnd);
 	void Draw(HDC hdc, RECT &paint_area);
+
 	static void Setup_Colors();
 
 private:
-	static unsigned char Get_Fading_Chanel(unsigned char color, unsigned char bg_color, int step);
-	static void Get_Fading_Color(const AColor &color, int step, HPEN &pen, HBRUSH &brush);
-
-
-	EBrick_Type Brick_Type;	
+	EBrick_Type Brick_Type;
 	int Fade_Step;
 	RECT Brick_Rect;
-	
+
+	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step);
+	static void Get_Fading_Color(const AColor &color, int step, HPEN &pen, HBRUSH &brush);
+
 	static const int Max_Fade_Step = 80;
 
 	static HPEN Fading_Red_Brick_Pens[Max_Fade_Step];

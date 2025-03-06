@@ -24,7 +24,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// TODO: Place code here.
-	
 	AsConfig::Setup_Colors();
 
 	// Initialize global strings
@@ -127,13 +126,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId;
-	HDC hdc; 	
+	HDC hdc;
 	PAINTSTRUCT ps;
 
 	switch (message)
 	{
 	case WM_COMMAND:
-	
 		wmId = LOWORD(wParam);
 		// Parse the menu selections:
 		switch (wmId)
@@ -146,8 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
-		
-	}
+		}
 	break;
 
 
