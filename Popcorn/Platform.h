@@ -2,13 +2,13 @@
 
 #include "Config.h"
 
+//------------------------------------------------------------------------------------------------------------
 enum EPlatform_State
 {
 	EPS_Missing,
 	EPS_Normal,
 	EPS_Meltdown
 };
-
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform
 {
@@ -25,16 +25,16 @@ public:
 	int X_Step;
 
 private:
-	EPlatform_State Platform_State;
 	void Draw_Normal_State(HDC hdc, RECT &paint_area);
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
 
+	EPlatform_State Platform_State;
 	int Inner_Width;
-	
+
 	static const int Normal_Width = 28;
 
 	int Meltdown_Platform_Y_Pos[Normal_Width * AsConfig::Global_Scale];
-	
+
 	RECT Platform_Rect, Prev_Platform_Rect;
 
 	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
