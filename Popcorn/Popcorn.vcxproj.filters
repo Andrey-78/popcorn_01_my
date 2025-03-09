@@ -23,19 +23,19 @@
       <UniqueIdentifier>{fa44af56-897d-4df7-9c5a-02d5ce74f94d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level">
-      <UniqueIdentifier>{a85b0d95-6cdc-4adb-9e45-cb71bfc2807a}</UniqueIdentifier>
+      <UniqueIdentifier>{af0f142b-c080-4e29-8c92-82778d40dffd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Config">
-      <UniqueIdentifier>{ac646d5d-f9df-4b85-b465-257956c24bba}</UniqueIdentifier>
+      <UniqueIdentifier>{d47e0b6f-9d2a-4b7b-b735-bcd2c5b78711}</UniqueIdentifier>
     </Filter>
     <Filter Include="Ball">
-      <UniqueIdentifier>{48c50f3e-ffe6-4887-b618-d7244912bbeb}</UniqueIdentifier>
+      <UniqueIdentifier>{6c14793c-3234-4996-8754-a4855ea913d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform">
-      <UniqueIdentifier>{f789cc89-d5ea-4ee9-a703-66fe5deedae5}</UniqueIdentifier>
+      <UniqueIdentifier>{9ff61a79-88c6-46d8-82c7-55c53a2bf2ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="Active_Brick">
-      <UniqueIdentifier>{db2502b5-9465-4ffe-a608-8b33b900e63b}</UniqueIdentifier>
+      <UniqueIdentifier>{63e4d4d8-864f-4cdb-9635-a2888618aef0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

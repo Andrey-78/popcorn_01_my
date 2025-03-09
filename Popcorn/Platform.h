@@ -7,7 +7,8 @@ enum EPlatform_State
 {
 	EPS_Missing,
 	EPS_Normal,
-	EPS_Meltdown
+	EPS_Meltdown,
+	EPS_Roll_In
 };
 //------------------------------------------------------------------------------------------------------------
 class AsPlatform
@@ -17,6 +18,7 @@ public:
 
 	void Init();
 	void Act(HWND hwnd);
+	void Set_State(EPlatform_State new_state);
 	void Redraw_Platform(HWND hwnd);
 	void Draw(HDC hdc, RECT &paint_area);
 
@@ -25,11 +27,16 @@ public:
 	int X_Step;
 
 private:
+	void Clear_BG(HDC hdc);
+	void Draw_Circle_Highlight(HDC hdc, int x, int y);
 	void Draw_Normal_State(HDC hdc, RECT &paint_area);
 	void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
+	void Draw_Roll_In_State(HDC hdc, RECT &paint_area);
+
 
 	EPlatform_State Platform_State;
 	int Inner_Width;
+	int Rolling_Step;
 
 	static const int Normal_Width = 28;
 
@@ -43,5 +50,6 @@ private:
 	static const int Height = 7;
 	static const int Circle_Size = 7;
 	static const int Meltdown_Speed = 3;
+	static const int Max_Rolling_Step = 8;
 };
 //------------------------------------------------------------------------------------------------------------
