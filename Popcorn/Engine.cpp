@@ -3,6 +3,7 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
+	: Game_State(EGS_Play_Level)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -13,12 +14,12 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	AActive_Brick::Setup_Colors();
 
-	Ball.Init();
 	Level.Init();
 	Platform.Init();
+	Ball.Init(Platform.X_Pos + Platform.Width / 2);
 	Border.Init();
 
-	Platform.Set_State(EPS_Roll_In);
+	Platform.Set_State(EPS_Normal);
 
 	Platform.Redraw_Platform();
 
@@ -75,13 +76,37 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 int AsEngine::On_Timer()
 {
 	++AsConfig::Current_Timer_Tick;
+	
+	switch (Game_State)
+	{
+	case EGS_Play_Level:
+		Ball.Move(&Level, Platform.X_Pos, Platform.Width);
+       
+		if(Ball.Ball_State == EBS_Lost)
+		{
+		   Game_State = EGS_Lost_Ball;
+		   Platform.Set_State(EPS_Meltdown);
+		}
+		break;
+	
+	
+	case EGS_Lost_Ball:
 
-	Ball.Move(&Level, Platform.X_Pos, Platform.Width);
+		break;
 
-	Level.Active_Brick.Act();
+
+	case EGS_Restart_Level:
+
+		break;
+	}
+
+	Platform.Act();
+
+
+	//Level.Active_Brick.Act();
 
 	//if (AsConfig::Current_Timer_Tick % 10 == 0)
-		Platform.Act();
+		
 
 	return 0;
 }
