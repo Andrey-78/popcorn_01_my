@@ -19,6 +19,7 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Border.Init();
 
 	Platform.Set_State(EPS_Roll_In);
+
 	Platform.Redraw_Platform();
 
 	SetTimer(AsConfig::Hwnd, Timer_ID, 1000 / AsConfig::FPS, 0);
@@ -40,7 +41,6 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	Ball.Draw(hdc, paint_area);
 	Border.Draw(hdc, paint_area);
 	Platform.Draw(hdc, paint_area);
-
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key_Down(EKey_Type key_type)
@@ -79,9 +79,9 @@ int AsEngine::On_Timer()
 	Ball.Move(&Level, Platform.X_Pos, Platform.Width);
 
 	Level.Active_Brick.Act();
-	
-	//if(AsConfig::Current_Timer_Tick % 10 == 0)
-	Platform.Act();
+
+	//if (AsConfig::Current_Timer_Tick % 10 == 0)
+		Platform.Act();
 
 	return 0;
 }

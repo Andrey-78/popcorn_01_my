@@ -75,7 +75,7 @@ void ABall::Move(ALevel *level, int platform_x_pos, int platform_width)
 		if (next_x_pos >= platform_x_pos && next_x_pos <= platform_x_pos + platform_width)
 		{
 			next_y_pos = platform_y_pos - (next_y_pos - platform_y_pos);
-			Ball_Direction = - Ball_Direction;
+			Ball_Direction = M_PI + (M_PI - Ball_Direction);
 		}
 	}
 

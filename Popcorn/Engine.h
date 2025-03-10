@@ -27,7 +27,6 @@ public:
 	int On_Timer();
 
 private:
-
 	ABall Ball;
 	ALevel Level;
 	AsPlatform Platform;
