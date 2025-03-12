@@ -11,7 +11,6 @@ enum EBall_State
 	EBS_On_Platform
 };
 //------------------------------------------------------------------------------------------------------------
-
 class ABall
 {
 public:
@@ -22,11 +21,11 @@ public:
 	void Draw(HDC hdc, RECT &paint_area);
 	void Move(ALevel *level, int platform_x_pos, int platform_width);
 	EBall_State Get_State();
-    void Set_State(EBall_State new_state, int x_pos );
-	
+	void Set_State(EBall_State new_state, int x_pos);
 
 private:
 	void Redraw_Ball();
+
 	EBall_State Ball_State;
 	HPEN Ball_Pen;
 	HBRUSH Ball_Brush;

@@ -3,7 +3,7 @@
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
 AsEngine::AsEngine()
-	: Game_State(EGS_Play_Level)
+: Game_State(EGS_Play_Level)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -20,7 +20,6 @@ void AsEngine::Init_Engine(HWND hwnd)
 	Border.Init();
 
 	Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
-
 
 	Platform.Set_State(EPS_Normal);
 
@@ -70,14 +69,14 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 		Platform.Redraw_Platform();
 		break;
 
-	
+
 	case EKT_Space:
 		if (Platform.Get_State() == EPS_Ready)
-		{   
+		{
 			Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2);
-			Platform.Set_State(EPS_Normal); 
+			Platform.Set_State(EPS_Normal);
 		}
-			break;
+		break;
 	}
 
 	return 0;
@@ -86,45 +85,43 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 int AsEngine::On_Timer()
 {
 	++AsConfig::Current_Timer_Tick;
-	
+
 	switch (Game_State)
 	{
 	case EGS_Play_Level:
 		Ball.Move(&Level, Platform.X_Pos, Platform.Width);
-       
+
 		if (Ball.Get_State() == EBS_Lost)
 		{
-		   Game_State = EGS_Lost_Ball;
-		   Platform.Set_State(EPS_Meltdown);
+			Game_State = EGS_Lost_Ball;
+			Platform.Set_State(EPS_Meltdown);
 		}
 		break;
-	
-	
+
+
 	case EGS_Lost_Ball:
-	    if (Platform.Get_State() == EPS_Missing)
-	    {
-	       Game_State = EGS_Restart_Level;
-	       Platform.Set_State(EPS_Roll_In);
-	    }
+		if (Platform.Get_State() == EPS_Missing)
+		{
+			Game_State = EGS_Restart_Level;
+			Platform.Set_State(EPS_Roll_In);
+		}
 		break;
 
 
 	case EGS_Restart_Level:
 		if (Platform.Get_State() == EPS_Ready)
 		{
-		   Game_State = EGS_Play_Level;
-		   Ball.Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2 );
+			Game_State = EGS_Play_Level;
+			Ball.Set_State(EBS_On_Platform, Platform.X_Pos + Platform.Width / 2);
 		}
 		break;
 	}
 
 	Platform.Act();
 
-
 	//Level.Active_Brick.Act();
 
 	//if (AsConfig::Current_Timer_Tick % 10 == 0)
-		
 
 	return 0;
 }
