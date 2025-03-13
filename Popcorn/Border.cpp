@@ -34,6 +34,7 @@ void AsBorder::Draw(HDC hdc, RECT &paint_area)
 bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 {
 	bool got_hit = false;
+
 	// Корректируем позицию при отражении от рамки
 	if (next_x_pos - ball->Radius < AsConfig::Border_X_Offset)
 	{
@@ -63,9 +64,10 @@ bool AsBorder::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 		else
 		{
 			if (next_y_pos + ball->Radius > (double)AsConfig::Max_Y_Pos + ball->Radius * 4.0)  // Чтобы шарик смог улететь ниже пола, проверяем его max_y_pos ниже видимой границы
-				ball-> Set_State(EBS_Lost, next_x_pos);
+				ball->Set_State(EBS_Lost, next_x_pos);
 		}
 	}
+
 	return got_hit;
 }
 //------------------------------------------------------------------------------------------------------------
