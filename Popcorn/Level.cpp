@@ -64,7 +64,6 @@ void ALevel::Init()
 	Level_Rect.bottom = Level_Rect.top + AsConfig::Cell_Height * AsConfig::Level_Height * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
-
 void ALevel::Draw(HDC hdc, RECT &paint_area)
 {// Вывод всех кирпичей уровня
 
@@ -153,7 +152,7 @@ void ALevel::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, EL
 	if (rotation_step < 8)
 		rotation_angle = 2.0 * M_PI / 16.0 * (double)rotation_step;
 	else
-		rotation_angle = 2.0 * M_PI / 16.0 * (double)(8L - (long long)rotation_step);
+		rotation_angle = 2.0 * M_PI / 16.0 * (double)(8 - rotation_step);
 
 	if (rotation_step > 4 && rotation_step <= 12)
 	{

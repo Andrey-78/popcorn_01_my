@@ -3,8 +3,8 @@
 #include <Windows.h>
 
 #include "Border.h"
-#include "Platform.h"
 #include "Level.h"
+#include "Platform.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum EKey_Type

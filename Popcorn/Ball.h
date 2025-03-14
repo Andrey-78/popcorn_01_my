@@ -48,9 +48,8 @@ private:
 
 	RECT Ball_Rect, Prev_Ball_Rect;
 
-	static const double Start_Ball_Y_Pos;	
-	static int Hit_Checker_Count;
+	static const double Start_Ball_Y_Pos;
+	static int Hit_Checkers_Count;
 	static AHit_Checker *Hit_Checkers[3];
-
 };
 //------------------------------------------------------------------------------------------------------------

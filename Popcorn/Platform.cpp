@@ -10,18 +10,17 @@ AsPlatform::AsPlatform()
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
 }
 //------------------------------------------------------------------------------------------------------------
-bool AsPlatform::Check_Hit( double next_x_pos, double next_y_pos, ABall *ball)
+bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 {
-	// Корректируем позицию при отражении от платформы
-	if (next_y_pos + ball->Radius  > AsConfig::Platform_Y_Pos)
+	if (next_y_pos + ball->Radius > AsConfig::Platform_Y_Pos)
 	{
-		if (next_x_pos + ball->Radius >= X_Pos && next_x_pos <= (double)(X_Pos + Width) )
+		if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= (double)(X_Pos + Width) )
 		{
-			next_y_pos = AsConfig::Platform_Y_Pos - (next_y_pos - AsConfig::Platform_Y_Pos);
 			ball->Ball_Direction = M_PI + (M_PI - ball->Ball_Direction);
 			return true;
 		}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
