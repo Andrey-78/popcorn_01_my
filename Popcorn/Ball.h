@@ -15,6 +15,7 @@ class AHit_Checker
 {
 public:
 	virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall *ball) = 0;
+	bool Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double &x);
 };
 //------------------------------------------------------------------------------------------------------------
 class ABall
@@ -26,6 +27,8 @@ public:
 
 	void Draw(HDC hdc, RECT &paint_area);
 	void Move();
+	bool Is_Moving_Up();
+	bool Is_Moving_Left();
 	void Set_For_Test();
 	bool Is_Test_Finished();
 	EBall_State Get_State();

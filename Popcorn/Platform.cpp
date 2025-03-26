@@ -12,14 +12,46 @@ AsPlatform::AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 {
-	if (next_y_pos + ball->Radius > AsConfig::Platform_Y_Pos)
+	double inner_top_y, inner_low_y;
+	double inner_left_x, inner_right_x;
+	double reflection_pos;
+
+	if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
+		return false;
+
+	inner_top_y = AsConfig::Platform_Y_Pos + 1;
+	inner_low_y	= AsConfig::Platform_Y_Pos + Height - 1;
+	inner_left_x = X_Pos + Circle_Size - 1;
+	inner_right_x = X_Pos + Width  - (Circle_Size - 1);
+	
+	// Проверяем попадание центральной части
+	
+	if(ball->Is_Moving_Up())
 	{
-		if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= (double)(X_Pos + Width) )
+	// В нижнюю часть
+		if (Hit_Circle_On_Line(next_y_pos - inner_low_y	, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos) )
 		{
 			ball->Reflect(true);
 			return true;
 		}
 	}
+	else
+	{
+		// В верхнюю часть
+		if (Hit_Circle_On_Line(next_y_pos - inner_top_y, next_x_pos, inner_left_x, inner_right_x, ball->Radius, reflection_pos) )
+		{
+			ball->Reflect(true);
+			return true;
+		}
+	
+	}
+		
+	/*if (next_x_pos + ball->Radius >= X_Pos && next_x_pos - ball->Radius <= (double)(X_Pos + Width) )
+		{
+			ball->Reflect(true);
+			return true;
+		}*/
+	
 
 	return false;
 }
