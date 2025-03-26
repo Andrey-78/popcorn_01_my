@@ -1,17 +1,6 @@
 ﻿#include "Ball.h"
 
-// ABall
-const double ABall::Start_Ball_Y_Pos = 181.0;
-const double ABall::Radius = 2.0;
-int ABall::Hit_Checkers_Count = 0;
-AHit_Checker *ABall::Hit_Checkers[] = {};
 //------------------------------------------------------------------------------------------------------------
-ABall::ABall()
-: Ball_State(EBS_Normal), Ball_Pen(0), Ball_Brush(0), Center_X_Pos(0.0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0),
-  Rest_Distance(0.0), Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
-{
-	//Set_State(EBS_Normal, 0);
-}
 bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x, double right_x, double radius, double &x)
 {// Проверяет пересечение горизонтального отрезка (проходящего от left_x до right_x через y) с окружностью радиусом radius
 
@@ -35,6 +24,22 @@ bool AHit_Checker::Hit_Circle_On_Line(double y, double next_x_pos, double left_x
 		return false;
 }
 //------------------------------------------------------------------------------------------------------------
+
+
+
+
+// ABall
+const double ABall::Start_Ball_Y_Pos = 181.0;
+const double ABall::Radius = 2.0;
+int ABall::Hit_Checkers_Count = 0;
+AHit_Checker *ABall::Hit_Checkers[] = {};
+//------------------------------------------------------------------------------------------------------------
+ABall::ABall()
+: Ball_State(EBS_Normal), Ball_Pen(0), Ball_Brush(0), Center_X_Pos(0.0), Center_Y_Pos(Start_Ball_Y_Pos), Ball_Speed(0.0),
+  Rest_Distance(0.0), Ball_Direction(0), Testing_Is_Active(false), Test_Iteration(0), Ball_Rect{}, Prev_Ball_Rect{}
+{
+	//Set_State(EBS_Normal, 0);
+}
 //------------------------------------------------------------------------------------------------------------
 void ABall::Init()
 {
@@ -89,7 +94,7 @@ void ABall::Move()
 
 		// Корректируем позицию при отражении:
 		for (i = 0; i < Hit_Checkers_Count; i++)
-			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);  // от рамки
+			got_hit |= Hit_Checkers[i]->Check_Hit(next_x_pos, next_y_pos, this);
 
 		if (! got_hit)
 		{
@@ -105,23 +110,6 @@ void ABall::Move()
 	}
 
 	Redraw_Ball();
-}
-//------------------------------------------------------------------------------------------------------------
-bool ABall::Is_Moving_Up()
-{
-	if (Ball_Direction >= 0.0 && Ball_Direction < M_PI)
-		return true;
-	else
-		return false;
-
-}
-//------------------------------------------------------------------------------------------------------------
-bool ABall::Is_Moving_Left()
-{
-	if (Ball_Direction > M_PI_2 && Ball_Direction  < M_PI + M_PI_2)
-		return true;
-	else
-		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Set_For_Test()
@@ -211,6 +199,22 @@ void ABall::Reflect(bool from_horizontal)
 		Set_Direction(-Ball_Direction);
 	else
 		Set_Direction(M_PI - Ball_Direction);
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Moving_Up()
+{
+	if (Ball_Direction >= 0.0 && Ball_Direction < M_PI)
+		return true;
+	else
+		return false;
+}
+//------------------------------------------------------------------------------------------------------------
+bool ABall::Is_Moving_Left()
+{
+	if (Ball_Direction > M_PI_2 && Ball_Direction < M_PI + M_PI_2)
+		return true;
+	else
+		return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ABall::Add_Hit_Checker(AHit_Checker *hit_checker)
