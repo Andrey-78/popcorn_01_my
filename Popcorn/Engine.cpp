@@ -133,7 +133,6 @@ int AsEngine::On_Timer()
 	}
 
 	Platform.Act();
-
 	Level.Act();
 
 	//if (AsConfig::Current_Timer_Tick % 10 == 0)

@@ -6,7 +6,7 @@
 enum EBrick_Type
 {
 	EBT_None,
-	
+
 	EBT_Red,
 	EBT_Blue,
 	EBT_Unbreakable,
@@ -27,6 +27,7 @@ public:
 	void Act();
 	void Draw(HDC hdc, RECT &paint_area);
 	bool Is_Finished();
+
 	static void Setup_Colors();
 
 private:
