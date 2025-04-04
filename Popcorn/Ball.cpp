@@ -118,7 +118,7 @@ void ABall::Set_For_Test()
 
 	//Set_State(EBS_Normal, 80, 189 - Test_Iteration);
 	//Ball_Direction = M_PI_4 / 4.0;
-	//Ball_Speed = 0.0;
+	//Ball_Speed = 1.0;
 
 	//Set_State(EBS_Normal, 80 + Test_Iteration, 194);
 	//Ball_Direction = M_PI_4;

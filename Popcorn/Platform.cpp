@@ -260,7 +260,6 @@ void AsPlatform::Draw_Roll_In_State(HDC hdc, RECT &paint_area)
 
 
 	// 2. Разделительная линия
-
 	alpha = -2.0 * M_PI / (double)Max_Rolling_Step * (double)Rolling_Step;
 
 	xform.eM11 = (float)cos(alpha);

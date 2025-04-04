@@ -1,15 +1,15 @@
 ﻿#include "Level.h"
 
 // AFalling_Letter
-
 //------------------------------------------------------------------------------------------------------------
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_type, int x, int y)
-: Brick_Type(brick_type), Letter_Type(letter_type), X(x), Y(y), Got_Hit(false), Rotation_Step(2), Next_Rotation_Tick(AsConfig::Current_Timer_Tick + Ticks_Per_Step)
+: Brick_Type(brick_type), Letter_Type(letter_type), Got_Hit(false), X(x), Y(y), Rotation_Step(2),
+  Next_Rotation_Tick(AsConfig::Current_Timer_Tick + Ticks_Per_Step)
 {
-	Letter_Cell.left = X,
-	Letter_Cell.top = Y,
+	Letter_Cell.left = X;
+	Letter_Cell.top = Y;
 	Letter_Cell.right = Letter_Cell.left + AsConfig::Brick_Width * AsConfig::Global_Scale;
-	Letter_Cell.bottom = Letter_Cell.top * AsConfig::Brick_Height * AsConfig::Global_Scale;
+	Letter_Cell.bottom = Letter_Cell.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 
 	Prev_Letter_Cell = Letter_Cell;
 }
@@ -22,16 +22,14 @@ void AFalling_Letter::Act()
 	Letter_Cell.top += AsConfig::Global_Scale;
 	Letter_Cell.bottom += AsConfig::Global_Scale;
 
-	if( AsConfig::Current_Timer_Tick >= Next_Rotation_Tick  )
+	if (AsConfig::Current_Timer_Tick >= Next_Rotation_Tick)
 	{
 		++Rotation_Step;
 		Next_Rotation_Tick += Ticks_Per_Step;
 	}
-	
+
 	InvalidateRect(AsConfig::Hwnd, &Prev_Letter_Cell, FALSE);
 	InvalidateRect(AsConfig::Hwnd, &Letter_Cell, FALSE);
-
-	//}
 }
 //------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Draw(HDC hdc, RECT &paint_area)
@@ -46,16 +44,16 @@ void AFalling_Letter::Draw(HDC hdc, RECT &paint_area)
 
 		Rectangle(hdc, Prev_Letter_Cell.left, Prev_Letter_Cell.top, Prev_Letter_Cell.right, Prev_Letter_Cell.bottom);
 	}
-	
+
 	if (IntersectRect(&intersection_rect, &paint_area, &Letter_Cell) )
-	Draw_Brick_Letter(hdc);
+		Draw_Brick_Letter(hdc);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AFalling_Letter::Is_Finished()
 {
-	if(Got_Hit || Letter_Cell.top > AsConfig::Max_Y_Pos * AsConfig::Global_Scale + AsConfig::Level_Y_Offset)
+	if (Got_Hit || Letter_Cell.top >= AsConfig::Max_Y_Pos * AsConfig::Global_Scale)
 		return true;
-	else 
+	else
 		return false;
 }
 //------------------------------------------------------------------------------------------------------------
@@ -91,10 +89,10 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 	HBRUSH front_brush, back_brush;
 	XFORM xform, old_xform;
 
-	if (!(Brick_Type == EBT_Blue || Brick_Type == EBT_Red))
+	if (! (Brick_Type == EBT_Blue || Brick_Type == EBT_Red))
 		return;  // Падающие буквы могут быть только от кирпичей такого типа
 
-					// Корректируем шаг вращения и угол поворота
+	// Корректируем шаг вращения и угол поворота
 	Rotation_Step = Rotation_Step % 16;
 
 	if (Rotation_Step < 8)
@@ -136,7 +134,6 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 	}
 	else
 	{
-
 		// Настраиваем матрицу "переворота" буквы
 		xform.eM11 = 1.0f;
 		xform.eM12 = 0.0f;
@@ -330,8 +327,8 @@ void ALevel::Act()
 			}
 		}
 	}
-	
-	//!!! Копия
+
+	//!!! Копия логики!
 	for (i = 0; i < AsConfig::Max_Falling_Letters_Count; i++)
 	{
 		if (Falling_Letters[i] != 0)
@@ -359,7 +356,6 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 		for (i = 0; i < AsConfig::Level_Height; i++)
 			for (j = 0; j < AsConfig::Level_Width; j++)
 				Draw_Brick(hdc, AsConfig::Level_X_Offset + j * AsConfig::Cell_Width, AsConfig::Level_Y_Offset + i * AsConfig::Cell_Height, (EBrick_Type)Current_Level[i][j]);
-	
 
 		for (i = 0; i < AsConfig::Max_Active_Bricks_Count; i++)
 		{
@@ -367,7 +363,8 @@ void ALevel::Draw(HDC hdc, RECT &paint_area)
 				Active_Bricks[i]->Draw(hdc, paint_area);
 		}
 	}
-	//!!! Копия
+
+	//!!! Копия логики!
 	for (i = 0; i < AsConfig::Max_Falling_Letters_Count; i++)
 	{
 		if (Falling_Letters[i] != 0)
@@ -383,14 +380,15 @@ void ALevel::On_Hit(int brick_x, int brick_y)
 
 	if (Add_Falling_Letter(brick_x, brick_y, brick_type) )
 		Current_Level[brick_y][brick_x] = EBT_None;
-	else	
+	else
 		Add_Active_Brick(brick_x, brick_y, brick_type);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type)
 {// Создаём падающую букву, если можем
-	int letter_x, letter_y;
+
 	int i;
+	int letter_x, letter_y;
 	AFalling_Letter *falling_letter;
 
 	if (brick_type == EBT_Red || brick_type == EBT_Blue)
@@ -405,8 +403,8 @@ bool ALevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type
 					{
 						letter_x = (brick_x * AsConfig::Cell_Width + AsConfig::Level_X_Offset) * AsConfig::Global_Scale;
 						letter_y = (brick_y * AsConfig::Cell_Height + AsConfig::Level_Y_Offset) * AsConfig::Global_Scale;
-						
-						falling_letter = new AFalling_Letter (brick_type, ELT_O, letter_x, letter_y);
+
+						falling_letter = new AFalling_Letter(brick_type, ELT_O, letter_x, letter_y);
 						Falling_Letters[i] = falling_letter;
 						++Falling_Letters_Count;
 						break;
