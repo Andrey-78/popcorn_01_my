@@ -29,6 +29,13 @@ public:
 	bool Is_Finished();
 
 	static void Setup_Colors();
+	
+	static const int Max_Fade_Step = 80;
+	static HPEN Fading_Red_Brick_Pens[Max_Fade_Step];
+	static HBRUSH Fading_Red_Brick_Brushes[Max_Fade_Step];
+	static HPEN Fading_Blue_Brick_Pens[Max_Fade_Step];
+	static HBRUSH Fading_Blue_Brick_Brushes[Max_Fade_Step];
+
 
 private:
 	EBrick_Type Brick_Type;
@@ -38,11 +45,6 @@ private:
 	static unsigned char Get_Fading_Channel(unsigned char color, unsigned char bg_color, int step);
 	static void Get_Fading_Color(const AColor &color, int step, HPEN &pen, HBRUSH &brush);
 
-	static const int Max_Fade_Step = 80;
 
-	static HPEN Fading_Red_Brick_Pens[Max_Fade_Step];
-	static HBRUSH Fading_Red_Brick_Brushes[Max_Fade_Step];
-	static HPEN Fading_Blue_Brick_Pens[Max_Fade_Step];
-	static HBRUSH Fading_Blue_Brick_Brushes[Max_Fade_Step];
 };
 //------------------------------------------------------------------------------------------------------------
