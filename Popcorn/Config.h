@@ -25,10 +25,13 @@ public:
 	static bool Level_Has_Floor;
 	static int Current_Timer_Tick;
 	static const AColor BG_Color, Red_Brick_Color, Blue_Brick_Color;
+	
 	static HPEN BG_Pen;
 	static HBRUSH BG_Brush;
-	static HWND Hwnd;
-
+	static HWND Hwnd;	
+	static HPEN Brick_Red_Pen, Brick_Blue_Pen, Letter_Pen;
+	static HBRUSH Brick_Red_Brush, Brick_Blue_Brush;
+	
 	static const double Moving_Step_Size;
 
 	static const int Global_Scale = 3;
@@ -47,5 +50,7 @@ public:
 	static const int Platform_Y_Pos = 185;
 	static const int FPS = 20;
 	static const int Max_Active_Bricks_Count = 10;
+	static const int Hits_Per_Letter = 1; //Вероятность выбить букву 1.0 / Hits_Per_Letter
+	static const int Max_Falling_Letters_Count = 10;
 };
 //------------------------------------------------------------------------------------------------------------
