@@ -16,8 +16,21 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 	double inner_top_y, inner_low_y;
 	double reflection_pos;
 
+	
+	// Проверяем отражение от шарика платформы
+
+	
+	
+
 	if (next_y_pos + ball->Radius < AsConfig::Platform_Y_Pos)
 		return false;
+
+
+	if (Reflect_On_Circle(next_x_pos, next_y_pos, 0.0, ball) )
+		return true;
+
+	if (Reflect_On_Circle(next_x_pos, next_y_pos, Width - Circle_Size, ball) )
+		return true;
 
 	inner_top_y = (double)(AsConfig::Platform_Y_Pos - 1);
 	inner_low_y = (double)(AsConfig::Platform_Y_Pos + Height - 1);
@@ -312,5 +325,24 @@ void AsPlatform::Draw_Expanding_Roll_In_State(HDC hdc, RECT &paint_area)
 		Platform_State = EPS_Ready;
 		Redraw_Platform();
 	}
+}
+//------------------------------------------------------------------------------------------------------------
+bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double platfopm_circle_x_pos, ABall *ball)
+{
+	double dx, dy, distance, alfa, beta, gamma;
+
+	
+	dx = next_x_pos - (double)(X_Pos + Circle_Size / 2) - platfopm_circle_x_pos;
+	dy = (double)(AsConfig::Platform_Y_Pos + Circle_Size / 2) - next_y_pos;
+	distance = sqrt(dx * dx + dy * dy);
+
+	if (distance - ((double)Circle_Size / 2 + ball->Radius) <= AsConfig::Ball_Step_Size)
+	{
+		beta = atan2(dy, dx);
+		alfa = beta + M_PI - ball->Get_Direction();
+		gamma = alfa + beta;
+		ball->Set_Direction(gamma);
+	}
+	return true;
 }
 //------------------------------------------------------------------------------------------------------------
