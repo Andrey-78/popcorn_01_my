@@ -22,7 +22,6 @@ const AColor AsConfig::Blue_Brick_Color(85, 255, 255);
 HPEN AsConfig::BG_Pen;
 HBRUSH AsConfig::BG_Brush;
 HWND AsConfig::Hwnd;
-
 HPEN AsConfig::Brick_Red_Pen, AsConfig::Brick_Blue_Pen, AsConfig::Letter_Pen;
 HBRUSH AsConfig::Brick_Red_Brush, AsConfig::Brick_Blue_Brush;
 

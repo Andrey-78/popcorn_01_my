@@ -1,13 +1,32 @@
 ﻿#include "Level.h"
 
-//AFalling_Letter
+// AFalling_Letter
 //------------------------------------------------------------------------------------------------------------
-AFalling_Letter::AFalling_Letter (ELetter_Type letter_type)
-	: Letter_Type(letter_type)
+AFalling_Letter::AFalling_Letter(ELetter_Type letter_type)
+: Letter_Type(letter_type)
 {
 }
 //------------------------------------------------------------------------------------------------------------
+void AFalling_Letter::Set_Brick_Letter_Colors(bool is_switch_color, HPEN& front_pen, HBRUSH& front_brush, HPEN& back_pen, HBRUSH& back_brush)
+{
+	if (is_switch_color)
+	{
+		front_pen = AsConfig::Brick_Red_Pen;
+		front_brush = AsConfig::Brick_Red_Brush;
 
+		back_pen = AsConfig::Brick_Blue_Pen;
+		back_brush = AsConfig::Brick_Blue_Brush;
+	}
+	else
+	{
+		front_pen = AsConfig::Brick_Blue_Pen;
+		front_brush = AsConfig::Brick_Blue_Brush;
+
+		back_pen = AsConfig::Brick_Red_Pen;
+		back_brush = AsConfig::Brick_Red_Brush;
+	}
+}
+//------------------------------------------------------------------------------------------------------------
 void AFalling_Letter::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick_type, ELetter_Type letter_type, int rotation_step)
 {// Вывод падающей буквы
 
@@ -23,7 +42,7 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc, int x, int y, EBrick_Type brick
 	if (!(brick_type == EBT_Blue || brick_type == EBT_Red))
 		return;  // Падающие буквы могут быть только от кирпичей такого типа
 
-	// Корректируем шаг вращения и угол поворота
+					// Корректируем шаг вращения и угол поворота
 	rotation_step = rotation_step % 16;
 
 	if (rotation_step < 8)
@@ -143,10 +162,11 @@ char ALevel::Test_Level[AsConfig::Level_Height][AsConfig::Level_Width] =
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
+
 // ALevel
 //------------------------------------------------------------------------------------------------------------
 ALevel::ALevel()
-: Active_Bricks_Count(0), Falling_Letters_Count(0)
+: Level_Rect{}, Active_Bricks_Count(0), Falling_Letters_Count(0)
 {
 }
 //------------------------------------------------------------------------------------------------------------
@@ -200,6 +220,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 					ball->Reflect(true);
 				else
 					ball->Reflect(false);
+
 				On_Hit(j, i);
 				return true;
 			}
@@ -207,7 +228,7 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 				if (got_horizontal_hit)
 				{
 					ball->Reflect(false);
-					On_Hit(j, i);					
+					On_Hit(j, i);
 					return true;
 				}
 				else
@@ -225,7 +246,6 @@ bool ALevel::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Init()
 {
-
 	Level_Rect.left = AsConfig::Level_X_Offset * AsConfig::Global_Scale;
 	Level_Rect.top = AsConfig::Level_Y_Offset * AsConfig::Global_Scale;
 	Level_Rect.right = Level_Rect.left + AsConfig::Cell_Width * AsConfig::Level_Width * AsConfig::Global_Scale;
@@ -286,22 +306,23 @@ void ALevel::On_Hit(int brick_x, int brick_y)
 
 	brick_type = (EBrick_Type)Current_Level[brick_y][brick_x];
 
-
-	if( !Add_Falling_Letter(brick_x, brick_y, brick_type))
-	Add_Active_Brick(brick_x, brick_y, brick_type);
+	if (! Add_Falling_Letter(brick_x, brick_y, brick_type) )
+		Add_Active_Brick(brick_x, brick_y, brick_type);
 }
 //------------------------------------------------------------------------------------------------------------
 bool ALevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type)
-{
+{// Создаём падающую букву, если можем
+
+	int i;
 	AFalling_Letter *falling_letter;
 
-	if(brick_type == EBT_Red || brick_type == EBT_Blue)
+	if (brick_type == EBT_Red || brick_type == EBT_Blue)
 	{
-		if (AsConfig::Rand(AsConfig::Hits_Per_Letter) == 0);
+		if (AsConfig::Rand(AsConfig::Hits_Per_Letter) == 0)
 		{
 			if (Falling_Letters_Count < AsConfig::Max_Falling_Letters_Count)
 			{
-				for (int i = 0; i <= AsConfig::Max_Falling_Letters_Count; i++)
+				for (i = 0; i < AsConfig::Max_Falling_Letters_Count; i++)
 				{
 					if (Falling_Letters[i] == 0)
 					{
@@ -311,21 +332,23 @@ bool ALevel::Add_Falling_Letter(int brick_x, int brick_y, EBrick_Type brick_type
 						break;
 					}
 				}
+
 				return true;
 			}
 		}
 	}
+
 	return false;
 }
 //------------------------------------------------------------------------------------------------------------
 void ALevel::Add_Active_Brick(int brick_x, int brick_y, EBrick_Type brick_type)
-{
+{// Создаём активный кирпич, если можем
+
 	int i;
 	AActive_Brick *active_brick;
 
 	if (Active_Bricks_Count >= AsConfig::Max_Active_Bricks_Count)
 		return;  // Активных кирпичей слишком много!
-
 
 	switch (brick_type)
 	{
@@ -448,5 +471,3 @@ void ALevel::Draw_Brick(HDC hdc, int x, int y, EBrick_Type brick_type)
 	RoundRect(hdc, x * AsConfig::Global_Scale, y * AsConfig::Global_Scale, (x + AsConfig::Brick_Width) * AsConfig::Global_Scale, (y + AsConfig::Brick_Height) * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
-
-
