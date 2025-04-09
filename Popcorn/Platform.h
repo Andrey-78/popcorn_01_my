@@ -32,7 +32,6 @@ public:
 	int Width;
 	int X_Step;
 
-
 private:
 	void Clear_BG(HDC hdc);
 	void Draw_Circle_Highlight(HDC hdc, int x, int y);
@@ -46,15 +45,16 @@ private:
 	EPlatform_State Platform_State;
 	int Inner_Width;
 	int Rolling_Step;
-	
+
 	int Normal_Platform_Image_Width, Normal_Platform_Image_Height;
-	int *Normal_Platform_Image; // Пиксели изображения платформы на фоне
+	int *Normal_Platform_Image;  // Пиксели изображения платформы на фоне
 
 	static const int Normal_Width = 28;
 
 	int Meltdown_Platform_Y_Pos[Normal_Width * AsConfig::Global_Scale];
 
 	RECT Platform_Rect, Prev_Platform_Rect;
+
 	AColor Highlight_Pen_Color, Platform_Circle_Pen_Color, Platform_Inner_Pen_Color;
 	HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
 	HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;

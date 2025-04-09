@@ -37,7 +37,8 @@ void AsEngine::Init_Engine(HWND hwnd)
 void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 {// Отрисовка экрана игры
 
-	COLORREF pixel;
+	//int i;
+	//COLORREF pixel;
 
 	SetGraphicsMode(hdc, GM_ADVANCED);
 
@@ -46,30 +47,27 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area)
 	Platform.Draw(hdc, paint_area);
 	Ball.Draw(hdc, paint_area);
 
-	/*for(int i = 0; i < 84 * 21 * 100; i++)
-	{
-		pixel = GetPixel(hdc, 100, 100);
-		SetPixel(hdc, 100, 100, pixel);
-	}*/
+	//for (i = 0; i < 84 * 21 * 100; i++)
+	//{
+	//	pixel = GetPixel(hdc, 100, 100);
+	//	SetPixel(hdc, 100, 100, pixel);
+	//}
 
-	/*for(int i = 0; i < 81 * 1000; i++)
+	//for (i = 0; i < 84 * 1000; i++)
+	//{
+	//	MoveToEx(hdc, 100, 555, 0);
 
-	{
-		MoveToEx(hdc, 100, 555, 0);
+	//	SelectObject(hdc, AsConfig::BG_Pen);
+	//	LineTo(hdc, 100, 557);
 
-		SelectObject(hdc, AsConfig::BG_Pen);
-		LineTo(hdc, 100, 557);
+	//	SelectObject(hdc, AsConfig::Brick_Blue_Pen);
+	//	LineTo(hdc, 100, 572);
 
-		SelectObject(hdc, AsConfig::Brick_Blue_Pen);
-		LineTo(hdc, 100, 572);
+	//	SelectObject(hdc, AsConfig::BG_Pen);
+	//	LineTo(hdc, 100, 575);
+	//}
 
-		SelectObject(hdc, AsConfig::BG_Pen);
-		LineTo(hdc, 100, 575);
-	
-	}
-
-	int yy = 0;*/
-
+	//int yy = 0;
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key_Down(EKey_Type key_type)

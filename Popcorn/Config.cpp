@@ -15,6 +15,8 @@ int AColor::Get_RGB() const
 
 
 
+
+
 // AsConfig
 bool AsConfig::Level_Has_Floor = false;
 int AsConfig::Current_Timer_Tick = 0;

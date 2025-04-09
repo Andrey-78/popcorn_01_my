@@ -9,10 +9,10 @@ AsPlatform::~AsPlatform()
 //------------------------------------------------------------------------------------------------------------
 AsPlatform::AsPlatform()
 : X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2), Platform_State(EPS_Normal), Inner_Width(Normal_Platform_Inner_Width),
-  Rolling_Step(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0), Normal_Platform_Image(0), Width(Normal_Width), 
-  Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0),
-  Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0), 
-  Highlight_Pen_Color(255, 255, 255), Platform_Circle_Pen_Color(151, 0, 0), Platform_Inner_Pen_Color(0, 128, 192)
+  Rolling_Step(0), Normal_Platform_Image_Width(0), Normal_Platform_Image_Height(0), Normal_Platform_Image(0),
+  Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{}, Highlight_Pen(0), Platform_Circle_Pen(0),
+  Platform_Inner_Pen(0), Platform_Circle_Brush(0), Platform_Inner_Brush(0), Highlight_Pen_Color(255, 255, 255),
+  Platform_Circle_Pen_Color(151, 0, 0), Platform_Inner_Pen_Color(0, 128, 192)
 {
 	X_Pos = (AsConfig::Max_X_Pos - Width) / 2;
 }
@@ -57,7 +57,7 @@ bool AsPlatform::Check_Hit(double next_x_pos, double next_y_pos, ABall *ball)
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Init()
 {
-	Highlight_Pen = CreatePen(PS_SOLID, 0, Highlight_Pen_Color.Get_RGB());
+	Highlight_Pen = CreatePen(PS_SOLID, 0, Highlight_Pen_Color.Get_RGB() );
 
 	AsConfig::Create_Pen_Brush(Platform_Circle_Pen_Color, Platform_Circle_Pen, Platform_Circle_Brush);
 	AsConfig::Create_Pen_Brush(Platform_Inner_Pen_Color, Platform_Inner_Pen, Platform_Inner_Brush);
@@ -65,7 +65,6 @@ void AsPlatform::Init()
 //------------------------------------------------------------------------------------------------------------
 void AsPlatform::Act()
 {
-	
 	switch (Platform_State)
 	{
 	case EPS_Meltdown:
@@ -179,9 +178,10 @@ void AsPlatform::Draw_Circle_Highlight(HDC hdc, int x, int y)
 void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 {// Рисуем платформу в нормальном состоянии
 
+	int i, j;
+	int offset = 0;
 	int x = X_Pos;
 	int y = AsConfig::Platform_Y_Pos;
-	int offset = 0;
 
 	Clear_BG(hdc);
 
@@ -204,15 +204,15 @@ void AsPlatform::Draw_Normal_State(HDC hdc, RECT &paint_area)
 	x *= AsConfig::Global_Scale;
 	y *= AsConfig::Global_Scale;
 
-	if(Normal_Platform_Image == 0)
+	if (Normal_Platform_Image == 0)
 	{
 		Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
 		Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
 
 		Normal_Platform_Image = new int[Normal_Platform_Image_Width * Normal_Platform_Image_Height];
-	
-		for(int i = 0; i < Normal_Platform_Image_Height; i++)
-			for(int j = 0; j < Normal_Platform_Image_Width; j++)
+
+		for (i = 0; i < Normal_Platform_Image_Height; i++)
+			for (j = 0; j < Normal_Platform_Image_Width; j++)
 				Normal_Platform_Image[offset++] = GetPixel(hdc, x + j, y + i);
 	}
 }
@@ -241,26 +241,27 @@ void AsPlatform::Draw_Meltdown_State(HDC hdc, RECT &paint_area)
 
 		y_offset = AsConfig::Rand(Meltdown_Speed) + 1;
 		x = Platform_Rect.left + i;
-				
-			j = 0;
-			y = Meltdown_Platform_Y_Pos[i];
-		
-			MoveToEx(hdc, x, y, 0);
 
-			// рисуем последовательность штрихов разного цвета (согласно прообразу, сохранённому в Normal_Platform_Image)
-			while (Get_Platform_Image_Stroke_Color(i, j, color_pen, stroke_len))
-			{
-				SelectObject(hdc, color_pen);
-				LineTo(hdc, x, y + stroke_len);
-				
-				y += stroke_len;
-				j += stroke_len;
-			}
+		j = 0;
+		y = Meltdown_Platform_Y_Pos[i];
 
-			y = Meltdown_Platform_Y_Pos[i];
-			MoveToEx(hdc, x, y, 0);
-			SelectObject(hdc, AsConfig::BG_Pen);
-			LineTo(hdc, x, y + y_offset);
+		MoveToEx(hdc, x, y, 0);
+
+		// Рисуем последовательность вертикальных штрихов разного цвета (согласно прообразу, сохранённому в Normal_Platform_Image)
+		while (Get_Platform_Image_Stroke_Color(i, j, color_pen, stroke_len) )
+		{
+			SelectObject(hdc, color_pen);
+			LineTo(hdc, x, y + stroke_len);
+
+			y += stroke_len;
+			j += stroke_len;
+		}
+
+		// Стираем фоном пиксели над штрихом
+		y = Meltdown_Platform_Y_Pos[i];
+		MoveToEx(hdc, x, y, 0);
+		SelectObject(hdc, AsConfig::BG_Pen);
+		LineTo(hdc, x, y + y_offset);
 
 		Meltdown_Platform_Y_Pos[i] += y_offset;
 	}
@@ -389,44 +390,46 @@ bool AsPlatform::Reflect_On_Circle(double next_x_pos, double next_y_pos, double 
 }
 //------------------------------------------------------------------------------------------------------------
 bool AsPlatform::Get_Platform_Image_Stroke_Color(int x, int y, HPEN &color_pen, int &stroke_len)
-{// Вычисляет длинну очередного вертикального штриха
+{// Вычисляет длину очередного вертикального штриха
 
 	int i;
-	int offset = y * Normal_Platform_Image_Width + x; // Позиция в массиве Normal_Platform_Image, сщщтветствующая смещению (x, y) 
+	int offset = y * Normal_Platform_Image_Width + x;  // Позиция в массиве Normal_Platform_Image, соответствующая смещению (x, y)
 	int color;
+
 	stroke_len = 0;
 
 	if (y >= Normal_Platform_Image_Height)
 		return false;
 
-	for(i = y; i < Normal_Platform_Image_Height; i++)
+	for (i = y; i < Normal_Platform_Image_Height; i++)
 	{
-		if(i == y)
+		if (i == y)
 		{
 			color = Normal_Platform_Image[offset];
 			stroke_len = 1;
 		}
-		else 
+		else
 		{
-			if(color == Normal_Platform_Image[offset])
-				stroke_len++;
+			if (color == Normal_Platform_Image[offset])
+				++stroke_len;
 			else
 				break;
 		}
-		offset += Normal_Platform_Image_Width; // Переходим на строку ниже
 
-		if(color == Highlight_Pen_Color.Get_RGB())
-			color_pen = Highlight_Pen;
-		else if(color == Platform_Circle_Pen_Color.Get_RGB())
-			color_pen = Platform_Circle_Pen;
-		else if(color == Platform_Inner_Pen_Color.Get_RGB())
-			color_pen = Platform_Inner_Pen;
-		else if(color == AsConfig::BG_Color.Get_RGB())
-			color_pen = AsConfig::BG_Pen;
-		else
-			color_pen = 0;
-
+		offset += Normal_Platform_Image_Width;  // Переходим на строку ниже
 	}
+
+	if (color == Highlight_Pen_Color.Get_RGB() )
+		color_pen = Highlight_Pen;
+	else if (color == Platform_Circle_Pen_Color.Get_RGB() )
+		color_pen = Platform_Circle_Pen;
+	else if (color == Platform_Inner_Pen_Color.Get_RGB() )
+		color_pen = Platform_Inner_Pen;
+	else if (color == AsConfig::BG_Color.Get_RGB() )
+		color_pen = AsConfig::BG_Pen;
+	else
+		color_pen = 0;
+
 	return true;
 }
 //------------------------------------------------------------------------------------------------------------
