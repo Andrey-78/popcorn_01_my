@@ -12,12 +12,11 @@ void AsEngine::Init_Engine(HWND hwnd)
 
 	SYSTEMTIME sys_time;
 	FILETIME file_time;
-	
+
 	GetSystemTime(&sys_time);
 	SystemTimeToFileTime(&sys_time, &file_time);
 
 	srand(file_time.dwLowDateTime);
-
 
 	AsConfig::Hwnd = hwnd;
 
@@ -84,24 +83,12 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 	switch (key_type)
 	{
 	case EKT_Left:
-		Platform.X_Pos -= Platform.X_Step;
-
-		if (Platform.X_Pos <= AsConfig::Border_X_Offset)
-			Platform.X_Pos = AsConfig::Border_X_Offset;
-
-		Platform.Redraw_Platform();
+		Platform.Move(true);
 		break;
-
 
 	case EKT_Right:
-		Platform.X_Pos += Platform.X_Step;
-
-		if (Platform.X_Pos >= AsConfig::Max_X_Pos - Platform.Width + 1)
-			Platform.X_Pos = AsConfig::Max_X_Pos - Platform.Width + 1;
-
-		Platform.Redraw_Platform();
+		Platform.Move(false);
 		break;
-
 
 	case EKT_Space:
 		if (Platform.Get_State() == EPS_Ready)
