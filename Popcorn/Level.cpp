@@ -1,11 +1,5 @@
 ﻿#include "Level.h"
 
-
-
-
-
-
-
 char ALevel::Level_01[AsConfig::Level_Height][AsConfig::Level_Width] =
 {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

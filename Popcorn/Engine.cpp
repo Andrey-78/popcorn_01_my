@@ -86,9 +86,11 @@ int AsEngine::On_Key_Down(EKey_Type key_type)
 		Platform.Move(true);
 		break;
 
+
 	case EKT_Right:
 		Platform.Move(false);
 		break;
+
 
 	case EKT_Space:
 		if (Platform.Get_State() == EPS_Ready)

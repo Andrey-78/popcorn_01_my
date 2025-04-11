@@ -1,9 +1,7 @@
 ﻿#pragma once
 
 #include "Falling_Letter.h"
-
 #include "Ball.h"
-
 
 //------------------------------------------------------------------------------------------------------------
 class ALevel: public AHit_Checker

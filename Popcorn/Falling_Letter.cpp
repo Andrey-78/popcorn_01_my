@@ -1,11 +1,10 @@
 #include "Falling_Letter.h"
 
-
 // AFalling_Letter
 //------------------------------------------------------------------------------------------------------------
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type, ELetter_Type letter_type, int x, int y)
-: Brick_Type(brick_type), Letter_Type(letter_type), Got_Hit(false), X(x), Y(y), Rotation_Step(2),
-  Next_Rotation_Tick(AsConfig::Current_Timer_Tick + Ticks_Per_Step)
+	: Brick_Type(brick_type), Letter_Type(letter_type), Got_Hit(false), X(x), Y(y), Rotation_Step(2),
+	Next_Rotation_Tick(AsConfig::Current_Timer_Tick + Ticks_Per_Step)
 {
 	Letter_Cell.left = X;
 	Letter_Cell.top = Y;
@@ -93,7 +92,7 @@ void AFalling_Letter::Draw_Brick_Letter(HDC hdc)
 	if (! (Brick_Type == EBT_Blue || Brick_Type == EBT_Red))
 		return;  // Падающие буквы могут быть только от кирпичей такого типа
 
-	// Корректируем шаг вращения и угол поворота
+					// Корректируем шаг вращения и угол поворота
 	Rotation_Step = Rotation_Step % 16;
 
 	if (Rotation_Step < 8)
