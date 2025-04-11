@@ -15,6 +15,7 @@ AActive_Brick::AActive_Brick(EBrick_Type brick_type, int level_x, int level_y)
 	Brick_Rect.bottom = Brick_Rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 }
 //------------------------------------------------------------------------------------------------------------
+
 void AActive_Brick::Act()
 {
 	if (Fade_Step < Max_Fade_Step - 1)
@@ -45,7 +46,7 @@ void AActive_Brick::Draw(HDC hdc, RECT &paint_area)
 	SelectObject(hdc, pen);
 	SelectObject(hdc, brush);
 
-	RoundRect(hdc, Brick_Rect.left, Brick_Rect.top, Brick_Rect.right, Brick_Rect.bottom, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
+	RoundRect(hdc, Brick_Rect.left, Brick_Rect.top, Brick_Rect.right - 1, Brick_Rect.bottom - 1, 2 * AsConfig::Global_Scale, 2 * AsConfig::Global_Scale);
 }
 //------------------------------------------------------------------------------------------------------------
 bool AActive_Brick::Is_Finished()
